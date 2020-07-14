@@ -160,7 +160,7 @@ class AuthController extends Controller
             $par = json_decode($decrypted);
             if (json_decode(json_encode($user->updated_at))!=$par->updated_at)
             {
-                $validator->errors()->add('user', __('User data has already been changed before'));
+                $validator->errors()->add('user', __('User data has already been changed before, invalid timestamp'));
                 return $this->ValidationError($validator);
             }
         } catch (DecryptException $e) {
