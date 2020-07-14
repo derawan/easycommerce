@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -38,4 +39,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = [ 'token'];
+
+    public function getTokenAttribute() {
+        $ob = json_encode(["id" => $this->id, "updated_at" => $this->updated_at]);
+        return $this->attributes['token'] = Crypt::encrypt($ob);
+    }
 }

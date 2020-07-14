@@ -25,8 +25,9 @@ Route::group(['middleware' => ['cors', 'return-json']], function () {
 
     Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/logout', 'Api\AuthController@logout')->name('logout.api');
+        Route::post('/updateprofile', 'Api\AuthController@updateProfile')->name('updateprofile.api');
         Route::post('/user', function (Request $request) {
-            return $request->user();
+            return $request->user()->toArray();
         })->name('user.profile');
     });
 
